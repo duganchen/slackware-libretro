@@ -3,10 +3,7 @@
 set -e
 
 TMP=${TMP:-/tmp}
-
-PKG_ROOT=$TMP/package-libretro
-SRC_ROOT=$TMP/libretro
-
+PKG=$TMP/package-RetroArch
 BUILD=1
 
 # Automatically determine the architecture we're building on:
@@ -33,17 +30,11 @@ else
   LIBDIRSUFFIX=""
 fi
 
-rm -rf $PKG_ROOT
-rm -rf $SRC_ROOT
+rm -rf $PKG
+rm -rf $TMP/RetroArch
 
-mkdir -p $PKG_ROOT
-mkdir -p $SRC_ROOT
-
-# Start with RetroArch
-
-PKG=$PKG_ROOT/RetroArch
 mkdir -p $PKG
-cd $SRC_ROOT
+cd $TMP
 git clone https://github.com/libretro/RetroArch.git
 cd RetroArch
 CWD=`pwd`
