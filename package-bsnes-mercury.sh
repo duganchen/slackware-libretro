@@ -5,7 +5,7 @@ set -e
 REPO=bsnes-mercury
 CORE=bsnes_mercury
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-$REPO
+PKG=$TMP/package-$REPO-libretro
 BUILD=1
 
 # Automatically determine the architecture we're building on:
@@ -69,4 +69,4 @@ find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | gr
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$REPO-libretro-$VERSION-$ARCH-${BUILD}.txz
