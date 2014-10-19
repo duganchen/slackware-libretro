@@ -2,8 +2,8 @@
 
 set -e
 
-REPO=bsnes-mercury
-CORE=bsnes_mercury
+REPO=vbam-libretro
+CORE=vbam
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
@@ -50,20 +50,16 @@ find -L . \
 CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
 
-# Download the core info files from the libretro-super project directly into the package
+# Download the core info file from the libretro-super project directly into the package
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-for PROFILE in accuracy balanced performance; do
-	curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}_${PROFILE}_libretro.info
-done
+curl -O https://github.com/libretro/libretro-super/blob/master/dist/info/${CORE}_libretro.info
 
-# build and install the cores
-cd $CWD
-for PROFILE in accuracy balanced performance; do
-	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make profile=$PROFILE ui=target-libretro
-	mv out/${CORE}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/${CORE}_${PROFILE}_libretro.so
-	make clean
-done
+# build and install the core
+cd $CWD/src/libretro
+make
+mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
+cp ${CORE}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
