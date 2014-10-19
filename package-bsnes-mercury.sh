@@ -2,8 +2,10 @@
 
 set -e
 
+REPO=bsnes-mercury
+CORE=bsnes_mercury
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-RetroArch
+PKG=$TMP/package-$CORE
 BUILD=1
 
 # Automatically determine the architecture we're building on:
@@ -31,12 +33,12 @@ else
 fi
 
 rm -rf $PKG
-rm -rf $TMP/RetroArch
+rm -rf $TMP/$REPO
 
 mkdir -p $PKG
 cd $TMP
-git clone https://github.com/libretro/RetroArch.git
-cd RetroArch
+git clone https://github.com/libretro/${REPO}.git
+cd $REPO
 
 chown -R root:root .
 find -L . \
@@ -47,33 +49,24 @@ find -L . \
 
 CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-./configure \
-  --prefix=/usr \
-  --enable-lakka \
-  --enable-cg
-make
-make -C gfx/filters
-make -C audio/filters
-make DESTDIR=$PKG PREFIX=/usr install
-mv $PKG/usr/share/man $PKG/usr
-mkdir -p $PKG/usr/doc
-cp $CWD/AUTHORS $PKG/usr/doc
-mkdir -p $PKG/usr/share/applications
-cp $CWD/debian/retroarch.desktop $PKG/usr/share/applications
-mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
-cp $CWD/gfx/filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
-cp $CWD/gfx/filters/*.filt $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
-mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
-cp $CWD/audio/filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
-cp $CWD/audio/filters/*.dsp $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
+
+# Download the core info files from the libretro-super project directly into the package
+mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
+cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
+for PROFILE in accuracy balanced performance; do
+	curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}_${PROFILE}_libretro.info
+done
+
+# build and install the cores
+cd $CWD
+for PROFILE in accuracy balanced performance; do
+	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make profile=$PROFILE ui=target-libretro
+	mv out/${CORE}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/${CORE}_${PROFILE}.so
+	make clean
+done
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-find $PKG/usr/man -type f -exec gzip -9 {} \;
-for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
-
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/RetroArch-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$CORE-$VERSION-$ARCH-${BUILD}.txz
