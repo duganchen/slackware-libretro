@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-# Based on
-# http://bazaar.launchpad.net/~libretro/libretro/bsnes-mercury-libretro-debian/view/head:/rules
+# Based on:
+# http://bazaar.launchpad.net/~libretro/libretro/retroarch-assets-debian/view/head:/rules
 
 set -e
 
-REPO=bsnes-mercury
-CORE=bsnes_mercury
+REPO=retroarch-assets
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-$REPO-libretro
+PKG=$TMP/package-$REPO
 BUILD=1
 
 # Automatically determine the architecture we're building on:
@@ -53,23 +52,10 @@ find -L . \
 CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
 
-# Download the core info files from the libretro-super project directly into the package
-mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-for PROFILE in accuracy balanced performance; do
-	curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}_${PROFILE}_libretro.info
-done
-
-# build and install the cores
-cd $CWD
-for PROFILE in accuracy balanced performance; do
-	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make profile=$PROFILE ui=target-libretro
-	mv out/${CORE}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/${CORE}_${PROFILE}_libretro.so
-	make clean
-done
-
-find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+mkdir -p $PKG/usr/share/libretro/assets
+find . -type d  -maxdepth 1 -not -name ".*" -exec cp -r {} $PKG/usr/share/libretro/assets \;
+find $PKG/usr/share/libretro/assets -type d -name src -prune -exec rm -r {} \;
+rm -rf
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-libretro-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-$ARCH-${BUILD}.txz

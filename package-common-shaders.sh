@@ -51,7 +51,7 @@ VERSION=`git rev-parse --short HEAD`
 
 mkdir -p $PKG/usr/share/libretro/shaders
 find . -type f -maxdepth 1 -exec cp {} $PKG/usr/share/libretro/shaders \;
-find . -type d -not -name ".*" -maxdepth 1 -exec cp -r {} $PKG/usr/share/libretro/shaders \;
+find . -type d -maxdepth 1 -not -name ".*" -exec cp -r {} $PKG/usr/share/libretro/shaders \;
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-$ARCH-${BUILD}.txz
