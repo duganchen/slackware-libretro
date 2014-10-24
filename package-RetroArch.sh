@@ -57,8 +57,8 @@ make -C gfx/filters
 make -C audio/filters
 make DESTDIR=$PKG PREFIX=/usr install
 mv $PKG/usr/share/man $PKG/usr
-mkdir -p $PKG/usr/doc
-cp $CWD/AUTHORS $PKG/usr/doc
+mkdir -p $PKG/usr/doc/RetroArch-$VERSION
+cp $CWD/AUTHORS $PKG/usr/doc/RetroArch-$VERSION
 mkdir -p $PKG/usr/share/applications
 cp $CWD/debian/retroarch.desktop $PKG/usr/share/applications
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
