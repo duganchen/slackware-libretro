@@ -3,7 +3,7 @@
 set -e
 
 REPO=vbam-libretro
-CORE=vbam
+CORE=vbam_libretro
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
@@ -53,13 +53,13 @@ VERSION=`git rev-parse --short HEAD`
 # Download the core info file from the libretro-super project directly into the package
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-curl -O https://github.com/libretro/libretro-super/blob/master/dist/info/${CORE}_libretro.info
+curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}.info
 
 # build and install the core
 cd $CWD/src/libretro
 make
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
-cp ${CORE}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
+cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
