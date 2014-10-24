@@ -51,7 +51,6 @@ CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 ./configure \
   --prefix=/usr \
-  --enable-lakka \
   --enable-cg
 make
 make -C gfx/filters
