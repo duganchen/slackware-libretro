@@ -46,7 +46,7 @@ VERSION=`git rev-parse --short HEAD`
 # Download the core info file from the libretro-super project directly into the package
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${REPO}_libretro.info
+curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/mednafen_pce_fast_libretro.info
 
 # build and install the core
 cd $CWD
