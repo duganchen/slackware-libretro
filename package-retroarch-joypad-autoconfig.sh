@@ -2,7 +2,7 @@
 
 set -e
 
-REPO=common-overlays
+REPO=retroarch-joypad-autoconfig
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
@@ -25,8 +25,8 @@ find -L . \
 CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
 
-mkdir -p $PKG/usr/share/libretro/overlays
-cp -rv * $PKG/usr/share/libretro/overlays
+mkdir -p $PKG/usr/share/libretro/autoconfig
+cp $CWD/udev/* $PKG/usr/share/libretro/autoconfig
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-noarch-${BUILD}.txz

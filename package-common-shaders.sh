@@ -7,30 +7,6 @@ TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
 
-# Automatically determine the architecture we're building on:
-if [ -z "$ARCH" ]; then
-  case "$( uname -m )" in
-    i?86) ARCH=i486 ;;
-    arm*) ARCH=arm ;;
-    # Unless $ARCH is already set, use uname -m for all other archs:
-       *) ARCH=$( uname -m ) ;;
-  esac
-fi
-
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "i686" ]; then
-  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "x86_64" ]; then
-  SLKCFLAGS="-O2 -fPIC"
-  LIBDIRSUFFIX="64"
-else
-  SLKCFLAGS="-O2"
-  LIBDIRSUFFIX=""
-fi
-
 rm -rf $PKG
 rm -rf $TMP/$REPO
 
@@ -54,4 +30,4 @@ find . -type f -maxdepth 1 -exec cp {} $PKG/usr/share/libretro/shaders \;
 find . -type d -maxdepth 1 -not -name ".*" -exec cp -r {} $PKG/usr/share/libretro/shaders \;
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-noarch-${BUILD}.txz
