@@ -4,7 +4,7 @@ set -e
 
 REPO=mame2003-libretro
 CORE=mame078_libretro
-PRGNAM=mame2003-libretro
+PRGNAM=libretro-mame2003
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
