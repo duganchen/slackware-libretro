@@ -3,7 +3,6 @@
 set -e
 
 REPO=fba-libretro
-CORE=fb_alpha_libretro
 PRGNAM=libretro-fba
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
