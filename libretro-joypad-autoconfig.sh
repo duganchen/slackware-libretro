@@ -3,6 +3,7 @@
 set -e
 
 REPO=retroarch-joypad-autoconfig
+PRGNAM=libretro-joypad-autoconfig
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
@@ -29,4 +30,4 @@ mkdir -p $PKG/usr/share/libretro/autoconfig
 cp $CWD/udev/* $PKG/usr/share/libretro/autoconfig
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-noarch-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-noarch-${BUILD}.txz

@@ -2,10 +2,10 @@
 
 set -e
 
-REPO=beetle-pce-fast-libretro
-CORE=mednafen_pce_fast_libretro
+REPO=nestopia
+PRGNAM=libretro-$REPO
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-${REPO}
+PKG=$TMP/package-$PRGNAM
 BUILD=1
 
 # Automatically determine the architecture we're building on:
@@ -40,21 +40,29 @@ cd $TMP
 git clone https://github.com/libretro/${REPO}.git
 cd $REPO
 
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
 CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
 
 # Download the core info file from the libretro-super project directly into the package
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/mednafen_pce_fast_libretro.info
+curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${REPO}_libretro.info
 
 # build and install the core
-cd $CWD
+cd $CWD/libretro
 make
-cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
+mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
+cp ${REPO}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-$ARCH-${BUILD}.txz

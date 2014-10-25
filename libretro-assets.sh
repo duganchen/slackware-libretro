@@ -2,7 +2,8 @@
 
 set -e
 
-REPO=common-overlays
+REPO=retroarch-assets
+PRGNAM=libretro-assets
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
@@ -25,8 +26,9 @@ find -L . \
 CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
 
-mkdir -p $PKG/usr/share/libretro/overlays
-cp -rv * $PKG/usr/share/libretro/overlays
+mkdir -p $PKG/usr/share/libretro/assets
+find . -type d  -maxdepth 1 -not -name ".*" -exec cp -r {} $PKG/usr/share/libretro/assets \;
+find $PKG/usr/share/libretro/assets -type d -name src -prune -exec rm -r {} \;
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-noarch-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-noarch-${BUILD}.txz

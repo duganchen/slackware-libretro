@@ -3,6 +3,7 @@
 set -e
 
 REPO=common-shaders
+PRGNAM=libretro-$REPO
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
@@ -30,4 +31,4 @@ find . -type f -maxdepth 1 -exec cp {} $PKG/usr/share/libretro/shaders \;
 find . -type d -maxdepth 1 -not -name ".*" -exec cp -r {} $PKG/usr/share/libretro/shaders \;
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-noarch-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-noarch-${BUILD}.txz

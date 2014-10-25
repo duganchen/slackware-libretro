@@ -4,6 +4,7 @@ set -e
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-RetroArch
+PRGNAM=RetroArch
 BUILD=1
 
 # Automatically determine the architecture we're building on:
@@ -31,12 +32,12 @@ else
 fi
 
 rm -rf $PKG
-rm -rf $TMP/RetroArch
+rm -rf $TMP/$PRGNAM
 
 mkdir -p $PKG
 cd $TMP
-git clone https://github.com/libretro/RetroArch.git
-cd RetroArch
+git clone https://github.com/libretro/${PRGNAM}.git
+cd $PRGNAM
 
 chown -R root:root .
 find -L . \
@@ -75,4 +76,4 @@ find $PKG/usr/man -type f -exec gzip -9 {} \;
 for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/RetroArch-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/libretro-RetroArch-$VERSION-$ARCH-${BUILD}.txz

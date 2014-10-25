@@ -2,9 +2,8 @@
 
 set -e
 
-REPO=Genesis-Plus-GX
-PRGNAM=$REPO-libretro
-CORE=genesis_plus_gx_libretro
+REPO=libretro-fceumm
+CORE=fceumm_libretro
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-${REPO}
 BUILD=1
@@ -58,4 +57,4 @@ find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | gr
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$REPO-$VERSION-$ARCH-${BUILD}.txz

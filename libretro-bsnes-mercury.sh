@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-# Based on
-# http://bazaar.launchpad.net/~libretro/libretro/bsnes-mercury-libretro-debian/view/head:/rules
-
 set -e
 
 REPO=bsnes-mercury
 CORE=bsnes_mercury
+PRGNAM=libretro-bsnes-mercury
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-$REPO-libretro
+PKG=$TMP/package-$REPO
 BUILD=1
 
 # Automatically determine the architecture we're building on:
@@ -72,4 +70,4 @@ find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | gr
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$REPO-libretro-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-$ARCH-${BUILD}.txz
