@@ -68,7 +68,7 @@ done
 
 # Download the core info file from the libretro-super project directly into the package
 cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-for FBACORE in cps1 cps2 neogeo; do
+for FBACORE in cps1 cps2 neo; do
 	curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/fba_cores_${FBACORE}_libretro.info
 done
 
