@@ -1,8 +1,5 @@
 This is intended to be a series of scripts to package RetroArch for Slackware.
 
-It is influenced by the Debian package-building scripts:
-https://code.launchpad.net/~libretro/libretro
-
 Set the paths in your config file as below. If you're on an x86 system,
 then change "/usr/lib64" to "/usr/lib.":
 
