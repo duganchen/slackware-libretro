@@ -2,7 +2,7 @@
 
 set -e
 
-REPO=desmume-libretro
+REPO=desmume
 CORE=desmume_libretro
 PRGNAM=libretro-desmume
 TMP=${TMP:-/tmp}
@@ -57,7 +57,7 @@ cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}.info
 
 # build and install the core
-cd $CWD
+cd $CWD/desmume
 CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -f Makefile.libretro
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
 cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
