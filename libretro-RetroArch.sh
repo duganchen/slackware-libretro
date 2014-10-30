@@ -39,6 +39,24 @@ cd $TMP
 git clone https://github.com/libretro/${PRGNAM}.git
 cd $PRGNAM
 
+sed -i "s/# libretro_directory =/libretro_directory = \/usr\/lib$LIBDIRSUFFIX\/libretro/" retroarch.cfg
+
+sed -i "s/# libretro_info_path =/libretro_info_path = \/usr\/lib$LIBDIRSUFFIX\/libretro\/info/" retroarch.cfg
+
+sed -i "s/# assets_directory =/assets_directory = \/usr\/share\/libretro\/assets/" retroarch.cfg
+
+sed -i "s/# rgui_config_directory =/rgui_config_directory = ~\/.config\/retroarch/" retroarch.cfg
+
+sed -i "s/# video_shader_dir =/video_shader_dir = \/usr\/share\/libretro\/shaders/" retroarch.cfg
+
+sed -i "s/# video_filter_dir =/video_filter_dir = \/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters\/video/" retroarch.cfg
+
+sed -i "s/# audio_filter_dir =/audio_filter_dir = \/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters\/audio/" retroarch.cfg
+
+sed -i "s/# overlay_directory =/overlay_directory = \/usr\/share\/libretro\/overlays/" retroarch.cfg
+
+sed -i "s/# joypad_autoconfig_dir =/joypad_autoconfig_dir = \/usr\/share\/libretro\/autoconfig/" retroarch.cfg
+
 chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
