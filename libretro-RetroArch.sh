@@ -54,8 +54,8 @@ CXXFLAGS="$SLKCFLAGS" \
   --prefix=/usr \
   --enable-cg
 make
-make -C gfx/filters
-make -C audio/filters
+make -C gfx/video_filters
+make -C audio/audio_filters
 make DESTDIR=$PKG PREFIX=/usr install
 mv $PKG/usr/share/man $PKG/usr
 mkdir -p $PKG/usr/doc/RetroArch-$VERSION
@@ -63,11 +63,11 @@ cp $CWD/AUTHORS $PKG/usr/doc/RetroArch-$VERSION
 mkdir -p $PKG/usr/share/applications
 cp $CWD/debian/retroarch.desktop $PKG/usr/share/applications
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
-cp $CWD/gfx/filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
-cp $CWD/gfx/filters/*.filt $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
+cp $CWD/gfx/video_filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
+cp $CWD/gfx/video_filters/*.filt $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
-cp $CWD/audio/filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
-cp $CWD/audio/filters/*.dsp $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
+cp $CWD/audio/audio_filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
+cp $CWD/audio/audio_filters/*.dsp $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
