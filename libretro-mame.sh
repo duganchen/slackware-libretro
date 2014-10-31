@@ -4,7 +4,6 @@ set -e
 
 REPO=mame
 PRGNAM=libretro-$REPO
-CORE=mame_libretro
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1
@@ -54,14 +53,18 @@ VERSION=`git rev-parse --short HEAD`
 # Download the core info file from the libretro-super project directly into the package
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}.info
+for core in mame mess; do
+	curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${core}_libretro.info
+done
 
 # build and install the core
 cd $CWD
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 LDFLAGS="-L/usr/lib${LIBDIRSUFFIX}" \
-make -f Makefile.libretro
+make -f Makefile.libretro "TARGET=mame"
+make -f Makefile.libretro "TARGET=mame" "PARTIAL=1" clean
+make -f Makefile.libretro "TARGET=mess"
 
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
 cp *.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/
