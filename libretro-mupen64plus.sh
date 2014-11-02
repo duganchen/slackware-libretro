@@ -58,7 +58,16 @@ curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/in
 
 # build and install the core
 cd $CWD
-CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make
+if [ "$ARCH" = "i486" ]; then
+  CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make WITH_DYNAREC=x86
+elif [ "$ARCH" = "i686" ]; then
+  CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make WITH_DYNAREC=x86
+elif [ "$ARCH" = "x86_64" ]; then
+  CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make WITH_DYNAREC=x86_64
+else
+  CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make
+fi
+
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
 cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
