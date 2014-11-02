@@ -22,5 +22,7 @@ familiar to Slackware users who use SlackBuild scripts.
 The following commands will build the latest version of each component, and
 then either upgrade or install it (as appropriate):
 
-	rm /tmp/libretro-* cd /path/to/slackware-libretro find -name "*.sh" -exec
-	{} \; upgradepkg --reinstall --install-new /tmp/libretro-*.txz
+	rm /tmp/libretro-*
+	cd /path/to/slackware-libretro
+	find -name "*.sh" -exec {} \;
+	upgradepkg --reinstall --install-new /tmp/libretro-*.txz
