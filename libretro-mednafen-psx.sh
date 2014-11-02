@@ -7,7 +7,7 @@ CORE=mednafen_psx_libretro
 PRGNAM=libretro-mednafen-psx
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-${REPO}
-BUILD=1
+BUILD=1dc
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then

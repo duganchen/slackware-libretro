@@ -7,7 +7,7 @@ CORE=imame4all_libretro
 PRGNAM=libretro-imame4all
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
-BUILD=1
+BUILD=1dc
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then

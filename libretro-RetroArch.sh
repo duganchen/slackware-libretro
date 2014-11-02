@@ -5,7 +5,7 @@ set -e
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-RetroArch
 PRGNAM=RetroArch
-BUILD=1
+BUILD=1dc
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then

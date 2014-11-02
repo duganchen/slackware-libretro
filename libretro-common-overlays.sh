@@ -6,7 +6,7 @@ REPO=common-overlays
 PRGNAM=libretro-common-overlays
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
-BUILD=1
+BUILD=1dc
 
 rm -rf $PKG
 rm -rf $TMP/$REPO

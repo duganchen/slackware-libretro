@@ -7,7 +7,7 @@ CORE=mame078_libretro
 PRGNAM=libretro-mame2003
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
-BUILD=1
+BUILD=1dc
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then

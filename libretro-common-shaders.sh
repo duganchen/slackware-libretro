@@ -6,7 +6,7 @@ REPO=common-shaders
 PRGNAM=libretro-$REPO
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
-BUILD=1
+BUILD=1dc
 
 rm -rf $PKG
 rm -rf $TMP/$REPO
