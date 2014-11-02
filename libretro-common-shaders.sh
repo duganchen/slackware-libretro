@@ -26,9 +26,32 @@ find -L . \
 CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
 
+# To make porting from here easier:
+# http://bazaar.launchpad.net/~libretro/libretro/common-shaders/view/head:/debian/rules
+SHADERSPATH=$PKG/usr/share/libretro/shaders
+DOCPATH=$PKG/usr/doc/$PRGNAM-$VERSION
+
 mkdir -p $PKG/usr/share/libretro/shaders
-find . -type f -maxdepth 1 -exec cp {} $PKG/usr/share/libretro/shaders \;
-find . -type d -maxdepth 1 -not -name ".*" -exec cp -r {} $PKG/usr/share/libretro/shaders \;
+find . -type f -maxdepth 1 -exec cp {} $SHADERSPATH \;
+find . -type d -maxdepth 1 -exec cp -r {} $SHADERSPATH \;
+
+rm -r $SHADERSPATH/.git
+rm -r $SHADERSPATH/docs
+
+mkdir -p $DOCPATH
+cp $CWD/docs/README $DOCPATH/
+mv $SHADERSPATH/blurs/README.txt $DOCPATH/README-blurs
+mv $SHADERSPATH/borders/README $DOCPATH/README-borders
+mv $SHADERSPATH/crt/crt-royale/README.TXT $DOCPATH/README-crt-royale
+mv $SHADERSPATH/crt/crt-royale/THANKS.TXT $DOCPATH/THANKS-crt-royale
+rm $SHADERSPATH/crt/crt-royale/LICENSE.TXT
+mv $SHADERSPATH/dithering/gdapt/README.md $DOCPATH/README-dithering_gdapt
+mv $SHADERSPATH/dithering/mdapt/README.md $DOCPATH/README-dithering_mdapt
+mv $SHADERSPATH/handheld/gameboy/README.md $DOCPATH/README-gameboy
+mv $SHADERSPATH/handheld/lcd-shader/README.md $DOCPATH/README-lcd-shader
+mv $SHADERSPATH/hqx/README.md $DOCPATH/README-hqx
+mv $SHADERSPATH/srgb-helpers/README.txt $DOCPATH/README-srgb-helpers
+mv $SHADERSPATH/windowed/README.md $DOCPATH/README-windowed
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-noarch-${BUILD}.txz
