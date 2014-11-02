@@ -62,6 +62,10 @@ CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
 cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a \mupen64plus-rsp-cxd4/COPYING $PKG/usr/doc/$PRGNAM-$VERSION/cxd4-license
+cp -a gles2glide64/doc/fxt1-license $PKG/usr/doc/$PRGNAM-$VERSION/
+
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
