@@ -26,3 +26,16 @@ then either upgrade or install it (as appropriate):
 	cd /path/to/slackware-libretro
 	find -name "*.sh" -exec {} \;
 	upgradepkg --reinstall --install-new /tmp/libretro-*.txz
+
+By default, RetroArch uses udev for gamepad support, and thus requires the
+udev joystick devices to be user-readable. They are only root-readable by
+default. You need a udev rule to set the permissions properly. One
+implementation is to create a file named */etc/udev/rules.d/99-joystick.rules*,
+containing the following:
+
+    KERNEL=="event[0-9]*", ENV{ID_BUS}=="?*", ENV{ID_INPUT_JOYSTICK}=="?*", GROUP="games", MODE="0660"
+	KERNEL=="js[0-9]*", ENV{ID_BUS}=="?*", ENV{ID_INPUT_JOYSTICK}=="?*", GROUP="games", MODE="0664"
+
+Then add your user account to the games group:
+
+	gpasswd -a games user
