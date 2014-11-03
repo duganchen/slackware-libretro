@@ -13,7 +13,7 @@ possibly other Libretro components) if found:
 * [p7zip](http://slackbuilds.org/system/p7zip/)
 * [pulseaudio](http://slackbuilds.org/audio/pulseaudio/)
 
-Each script is named "libretro-<PACKAGE>.sh". Running it will clone the master
+Each script is named "libretro-PACKAGE.sh". Running it will clone the master
 branch of the package's git repository, build it into a Slackware package named
 PACKAGE and versioned with the git revision's short hash, and do its work in
 $TMP (which is /tmp unless you've set it otherwise). This process should be
