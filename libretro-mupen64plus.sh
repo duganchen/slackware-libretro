@@ -58,9 +58,7 @@ curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/in
 
 # build and install the core
 cd $CWD
-if [ "$ARCH" = "i486" ]; then
-  CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make WITH_DYNAREC=x86
-elif [ "$ARCH" = "i686" ]; then
+if [ "$ARCH" = "i486" -o "$ARCH" = "i686" ]; then
   CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make WITH_DYNAREC=x86
 elif [ "$ARCH" = "x86_64" ]; then
   CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make WITH_DYNAREC=x86_64
@@ -73,7 +71,6 @@ cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \mupen64plus-rsp-cxd4/COPYING $PKG/usr/doc/$PRGNAM-$VERSION/cxd4-license
-cp -a gles2glide64/doc/fxt1-license $PKG/usr/doc/$PRGNAM-$VERSION/
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
