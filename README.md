@@ -13,6 +13,8 @@ possibly other Libretro components) if found:
 * [p7zip](http://slackbuilds.org/system/p7zip/)
 * [pulseaudio](http://slackbuilds.org/audio/pulseaudio/)
 
+The DosBox core is also set to build with FluidSynth support.
+
 Each script is named "libretro-PACKAGE.sh". Running it will clone the master
 branch of the package's git repository, build it into a Slackware package named
 PACKAGE and versioned with the git revision's short hash, and do its work in

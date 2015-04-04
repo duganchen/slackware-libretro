@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-set -e
+#!/usr/bin/env zsh
 
 REPO=dosbox-libretro
 CORE=dosbox_libretro
@@ -9,23 +7,21 @@ TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1dc
 
-# Automatically determine the architecture we're building on:
-if [ -z "$ARCH" ]; then
+if [[ -z $ARCH ]]; then
   case "$( uname -m )" in
     i?86) ARCH=i486 ;;
     arm*) ARCH=arm ;;
-    # Unless $ARCH is already set, use uname -m for all other archs:
        *) ARCH=$( uname -m ) ;;
   esac
 fi
 
-if [ "$ARCH" = "i486" ]; then
+if [[ $ARCH == i486 ]]; then
   SLKCFLAGS="-O2 -march=i486 -mtune=i686"
   LIBDIRSUFFIX=""
-elif [ "$ARCH" = "i686" ]; then
+elif [[ $ARCH == "i686" ]]; then
   SLKCFLAGS="-O2 -march=i686 -mtune=i686"
   LIBDIRSUFFIX=""
-elif [ "$ARCH" = "x86_64" ]; then
+elif [[ "$ARCH" = "x86_64" ]]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
 else
@@ -58,7 +54,7 @@ curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/in
 
 # build and install the core
 cd $CWD
-CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -f Makefile.libretro
+CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -f Makefile.libretro WANT_FLUIDSYNTH=1
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
 cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
