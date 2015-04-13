@@ -60,7 +60,7 @@ curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/in
 cd $CWD
 CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
-cp out/libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/${CORE}.so
+cp out/$CORE.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/${CORE}.so
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
