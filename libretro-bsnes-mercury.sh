@@ -62,7 +62,7 @@ done
 cd $CWD
 for PROFILE in accuracy balanced performance; do
 	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make profile=$PROFILE ui=target-libretro
-	mv out/${CORE}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/${CORE}_${PROFILE}_libretro.so
+	mv out/${CORE}_${PROFILE}_libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/${CORE}_${PROFILE}_libretro.so
 	make clean
 done
 
