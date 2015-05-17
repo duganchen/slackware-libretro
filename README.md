@@ -4,6 +4,9 @@ There is one script for each component.
 The [NVidia CG Toolkit](http://slackbuilds.org/graphics/nvidia-cg-toolkit/) is
 a requirement for both RetroArch and for common-shaders.
 
+RetroArch needs libusb to be at least 1.0.16, which is newer than the one in
+Slackware 14.1.
+
 The following are not required, but will be detected and used by RetroArch (and
 possibly other Libretro components) if found:
 
