@@ -79,7 +79,7 @@ mv $PKG/usr/share/man $PKG/usr
 mkdir -p $PKG/usr/doc/RetroArch-$VERSION
 cp $CWD/AUTHORS $PKG/usr/doc/RetroArch-$VERSION
 mkdir -p $PKG/usr/share/applications
-cp $CWD/debian/retroarch.desktop $PKG/usr/share/applications
+cp $CWD/dist-scripts/debian/retroarch.desktop $PKG/usr/share/applications
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
 cp $CWD/gfx/video_filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
 cp $CWD/gfx/video_filters/*.filt $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
@@ -93,5 +93,10 @@ find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | gr
 find $PKG/usr/man -type f -exec gzip -9 {} \;
 for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 
+rm -rf $TMP/$PRGNAM
+
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/libretro-RetroArch-$VERSION-$ARCH-${BUILD}.txz
+
+cd -
+rm -rf $PKG
