@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 set -e
 
@@ -23,8 +23,8 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-CWD=`pwd`
-VERSION=`git rev-parse --short HEAD`
+CWD=$PWD
+VERSION=$(git rev-parse --short HEAD)
 
 # To make porting from here easier:
 # http://bazaar.launchpad.net/~libretro/libretro/common-shaders/view/head:/debian/rules
@@ -42,11 +42,11 @@ mkdir -p $DOCPATH
 cp $CWD/docs/README $DOCPATH/
 mv $SHADERSPATH/blurs/README.txt $DOCPATH/README-blurs
 mv $SHADERSPATH/borders/README $DOCPATH/README-borders
-mv $SHADERSPATH/crt/crt-royale/README.TXT $DOCPATH/README-crt-royale
-mv $SHADERSPATH/crt/crt-royale/THANKS.TXT $DOCPATH/THANKS-crt-royale
-rm $SHADERSPATH/crt/crt-royale/LICENSE.TXT
-mv $SHADERSPATH/dithering/gdapt/README.md $DOCPATH/README-dithering_gdapt
-mv $SHADERSPATH/dithering/mdapt/README.md $DOCPATH/README-dithering_mdapt
+mv $SHADERSPATH/crt/shaders/crt-royale/README.TXT $DOCPATH/README-crt-royale
+mv $SHADERSPATH/crt/shaders/crt-royale/THANKS.TXT $DOCPATH/THANKS-crt-royale
+rm $SHADERSPATH/crt/shaders/crt-royale/LICENSE.TXT
+mv $SHADERSPATH/dithering/shaders/gdapt/README.md $DOCPATH/README-dithering_gdapt
+mv $SHADERSPATH/dithering/shaders/mdapt/README.md $DOCPATH/README-dithering_mdapt
 mv $SHADERSPATH/handheld/gameboy/README.md $DOCPATH/README-gameboy
 mv $SHADERSPATH/handheld/lcd-shader/README.md $DOCPATH/README-lcd-shader
 mv $SHADERSPATH/hqx/README.md $DOCPATH/README-hqx
@@ -55,3 +55,7 @@ mv $SHADERSPATH/windowed/README.md $DOCPATH/README-windowed
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-noarch-${BUILD}.txz
+
+cd -
+rm -rf $PKG
+rm -rf $TMP/$REPO
