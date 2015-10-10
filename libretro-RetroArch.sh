@@ -52,7 +52,7 @@ sed -i "s/# rgui_config_directory =/rgui_config_directory = ~\/.config\/retroarc
 sed -i "s/# input_remapping_directory =/input_remapping_directory = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# playlist_directory =/playlist_directory = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# content_database_path =/content_database_path = ~\/.config//retroarch/" retroarch.cfg
+sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# cursor_directory =/cursor_directory = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# core_assets_directory =/core_assets_directory = ~\/.config\/retroarch/" retroarch.cfg
