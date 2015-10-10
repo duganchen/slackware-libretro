@@ -49,7 +49,7 @@ sed -i "s/# joypad_autoconfig_dir =/joypad_autoconfig_dir = \/usr\/share\/libret
 sed -i "s/# assets_directory =/assets_directory = \/usr\/share\/libretro\/assets/" retroarch.cfg
 
 sed -i "s/# rgui_config_directory =/rgui_config_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# input_remapping_directory =/input_remapping_directory_directory = ~\/.config\/retroarch/" retroarch.cfg
+sed -i "s/# input_remapping_directory =/input_remapping_directory = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# playlist_directory =/playlist_directory = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# content_database_path =/content_database_path = ~\/.config//retroarch/" retroarch.cfg
