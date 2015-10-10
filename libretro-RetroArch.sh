@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -e
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-RetroArch
 PRGNAM=RetroArch
@@ -54,10 +56,7 @@ sed -i "s/# playlist_directory =/playlist_directory = ~\/.config\/retroarch/" re
 sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarch/" retroarch.cfg
 sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# cursor_directory =/cursor_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# core_assets_directory =/core_assets_directory = ~\/.config\/retroarch/" retroarch.cfg
-
-sed -i "s/# content_history_path =/content_history_path = ~\/.config\/retroarch/content_history.lpl" retroarch.cfg
+sed -i "s/# content_history_path =/content_history_path = ~\/.config\/retroarch\/content_history.lpl/" retroarch.cfg
 
 chown -R root:root .
 find -L . \
@@ -79,7 +78,7 @@ make -C audio/audio_filters
 make DESTDIR=$PKG PREFIX=/usr install
 mv $PKG/usr/share/man $PKG/usr
 mkdir -p $PKG/usr/doc/RetroArch-$VERSION
-cp $CWD/AUTHORS $PKG/usr/doc/RetroArch-$VERSION
+cp $CWD/[A-Z][A-Z]* $PKG/usr/doc/RetroArch-$VERSION
 mkdir -p $PKG/usr/share/applications
 cp $CWD/retroarch.desktop $PKG/usr/share/applications
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
@@ -92,16 +91,9 @@ cp $CWD/audio/audio_filters/*.dsp $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/au
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-
 for m in $PKG/usr/man/**/*.[0-9]; do
 	gzip -9 $m
 done
-
-# find $PKG/usr/man -type f -exec gzip -9 {} \;
-# for i in $( find $PKG/usr/man -type l ); do
-# 	ln -s $( readlink $i ).gz $i.gz
-# 	rm $i
-# done
 
 
 cd $PKG
