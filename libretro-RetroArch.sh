@@ -95,7 +95,6 @@ for m in $PKG/usr/man/**/*.[0-9]; do
 	gzip -9 $m
 done
 
-
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/libretro-RetroArch-$VERSION-$ARCH-${BUILD}.txz
 
