@@ -2,10 +2,10 @@
 
 set -e
 
-REPO=fba-libretro
 PRGNAM=libretro-fba
+CORE=fba_libretro
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-$REPO
+PKG=$TMP/package-$PRGNAM
 BUILD=1dc
 
 # Automatically determine the architecture we're building on:
@@ -33,12 +33,13 @@ else
 fi
 
 rm -rf $PKG
-rm -rf $TMP/$REPO
+rm -rf $TMP/$PRGNAM
 
 mkdir -p $PKG
 cd $TMP
-git clone https://github.com/libretro/${REPO}.git
-cd $REPO
+
+git clone https://github.com/libretro/${PRGNAM}.git
+cd $PRGNAM
 
 chown -R root:root .
 find -L . \
@@ -47,29 +48,18 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-CWD=`pwd`
 VERSION=`git rev-parse --short HEAD`
 
 # Download the core info file from the libretro-super project directly into the package
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}.info
+cd $TMP/$PRGNAM
 
 # build and install the core
 
-mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-cd $CWD
-
-for FBACORE in cps1 cps2 neogeo; do
-	CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -C svn-current/trunk/fbacores/$FBACORE/ -f makefile.libretro
-	cp svn-current/trunk/fbacores/$FBACORE/*.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/
-done
-
-# Download the core info file from the libretro-super project directly into the package
-cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
-for FBACORE in cps1 cps2 neo; do
-	curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/fba_cores_${FBACORE}_libretro.info
-done
+make -f makefile.libretro
+cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
