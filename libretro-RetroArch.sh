@@ -45,18 +45,20 @@ sed -i "s/# libretro_info_path =/libretro_info_path = \/usr\/lib$LIBDIRSUFFIX\/l
 sed -i "s/# video_filter_dir =/video_filter_dir = \/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters\/video/" retroarch.cfg
 sed -i "s/# audio_filter_dir =/audio_filter_dir = \/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters\/audio/" retroarch.cfg
 
-sed -i "s/# video_shader_dir =/video_shader_dir = \/usr\/share\/libretro\/shaders/" retroarch.cfg
-sed -i "s/# overlay_directory =/overlay_directory = \/usr\/share\/libretro\/overlays/" retroarch.cfg
-sed -i "s/# joypad_autoconfig_dir =/joypad_autoconfig_dir = \/usr\/share\/libretro\/autoconfig/" retroarch.cfg
-sed -i "s/# assets_directory =/assets_directory = \/usr\/share\/libretro\/assets/" retroarch.cfg
+sed -i "s/# video_shader_dir =/video_shader_dir = ~\/.config\/retroarch\/shaders/" retroarch.cfg
+
+sed -i "s/# overlay_directory =/overlay_directory = ~\/.config\/retroarch\/overlay/" retroarch.cfg
+sed -i "s/# joypad_autoconfig_dir =/joypad_autoconfig_dir = ~\/.config\/retroarch\/autoconf/" retroarch.cfg
+sed -i "s/# assets_directory =/assets_directory = ~\/.config\/retroarch\/assets/" retroarch.cfg
 
 sed -i "s/# rgui_config_directory =/rgui_config_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# input_remapping_directory =/input_remapping_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# playlist_directory =/playlist_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch/" retroarch.cfg
+sed -i "s/# input_remapping_directory =/input_remapping_directory = ~\/.config\/retroarch\/remap/" retroarch.cfg
+sed -i "s/# playlist_directory =/playlist_directory = ~\/.config\/retroarch\/playlists/" retroarch.cfg
+sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch\/boxarts/" retroarch.cfg
+sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarch\/database/" retroarch.cfg
+sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch\/cheats/" retroarch.cfg
 sed -i "s/# content_history_path =/content_history_path = ~\/.config\/retroarch\/content_history.lpl/" retroarch.cfg
+
 
 chown -R root:root .
 find -L . \

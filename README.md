@@ -45,12 +45,6 @@ Then add your user account to the games group:
 
 	gpasswd -a games user
 
-The default RetroArch Slackbuilds assumes that you'll be installing the assets,
-overlays, shaders, etc with the included SlackBuilds. You can also install them
-via the GUI. If you want to do that (which I recommend), then do the following
-and then make the appropriate path changes to your config:
-
-	mkdir -p ~/.local/share/libretro/{assets,autoconfig,databases,overlays,shaders}
-
-The only one that might need an explanation is "databases" which is that option in the GUI
-and content\_database\_path in the config file.
+On your first run, use the Online Updater to update everything except the Core and Core Info files.
+Use the included SlackBuilds to install the cores. If you want to install the cores that were
+prebuilt upstream on an Ubuntu system instead, just edit your CFG file accordingly.
