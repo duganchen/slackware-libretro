@@ -50,4 +50,4 @@ overlays, shaders, etc with the included SlackBuilds. You can also install them
 via the GUI. If you want to do that (which I recommend), then do the following
 and then make the appropriate path changes to your config:
 
-	mdir -p ~/.local/share/libretro/{assets,autoconfig,overlays,shaders}
+	mkdir -p ~/.local/share/libretro/{assets,autoconfig,overlays,shaders}
