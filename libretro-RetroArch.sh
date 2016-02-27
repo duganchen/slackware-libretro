@@ -4,6 +4,7 @@ set -e
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-RetroArch
+VERSION=${VERSION:-v1.3.1}
 PRGNAM=RetroArch
 BUILD=1dc
 
@@ -38,6 +39,8 @@ cd $TMP
 git clone https://github.com/libretro/${PRGNAM}.git
 cd $PRGNAM
 
+git checkout $VERSION
+
 # Set the config file default directories to be consistent with the installation.
 #
 sed -i "s/# libretro_directory =/libretro_directory = \/usr\/lib$LIBDIRSUFFIX\/libretro/" retroarch.cfg
@@ -68,7 +71,6 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 CWD=$PWD
-VERSION=$( git rev-parse --short HEAD )
 CFLAGS=$SLKCFLAGS \
 	CXXFLAGS="$SLKCFLAGS" \
 	./configure \
