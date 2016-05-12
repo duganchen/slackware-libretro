@@ -1,10 +1,8 @@
 #!/usr/bin/env zsh
 
-set -e
-
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-RetroArch
-VERSION=${VERSION:-v1.3.1}
+VERSION=${VERSION:-v1.3.2}
 PRGNAM=RetroArch
 BUILD=1dc
 
@@ -31,15 +29,28 @@ else
 	LIBDIRSUFFIX=""
 fi
 
+read -r -d '' PARSER <<EOF
+# Get the latest version
+import json
+import sys
+
+releases = json.load(sys.stdin)
+print releases[0]["tag_name"]
+EOF
+
+set -e
+
+LATEST=$(curl -H "Accept: application/vnd.github.v3.raw+json" https://api.github.com/repos/libretro/${PRGNAM}/releases | python -c $PARSER)
+VERSION=${LATEST:1}
+
 rm -rf $PKG
-rm -rf $TMP/$PRGNAM
+rm -rf $TMP/${PRGNAM}-${VERSION} $TMP/${PRGNAM}-${VERSION}.tar.gz
 
 mkdir -p $PKG
 cd $TMP
-git clone https://github.com/libretro/${PRGNAM}.git
-cd $PRGNAM
-
-git checkout $VERSION
+wget --content-disposition https://github.com/libretro/${PRGNAM}/archive/${LATEST}.tar.gz
+tar xvf RetroArch-${VERSION}.tar.gz
+cd ${PRGNAM}-${VERSION}
 
 # Set the config file default directories to be consistent with the installation.
 #
@@ -61,7 +72,6 @@ sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch\/boxar
 sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarch\/database/" retroarch.cfg
 sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch\/cheats/" retroarch.cfg
 sed -i "s/# content_history_path =/content_history_path = ~\/.config\/retroarch\/content_history.lpl/" retroarch.cfg
-
 
 chown -R root:root .
 find -L . \
