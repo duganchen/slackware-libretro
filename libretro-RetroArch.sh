@@ -2,7 +2,6 @@
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-RetroArch
-VERSION=${VERSION:-v1.3.2}
 PRGNAM=RetroArch
 BUILD=1dc
 
@@ -10,7 +9,6 @@ if [[ -z $ARCH ]]; then
 	case $( uname -m ) in
 		i?86) ARCH=i486 ;;
 		arm*) ARCH=arm ;;
-		# Unless $ARCH is already set, use uname -m for all other archs:
 		*) ARCH=$( uname -m ) ;;
 	esac
 fi
@@ -44,12 +42,13 @@ LATEST=$(curl -H "Accept: application/vnd.github.v3.raw+json" https://api.github
 VERSION=${LATEST:1}
 
 rm -rf $PKG
-rm -rf $TMP/${PRGNAM}-${VERSION} $TMP/${PRGNAM}-${VERSION}.tar.gz
+rm -rf $TMP/${PRGNAM}-${VERSION} $TMP/${PRGNAM}-${LATEST}.tar.gz
 
 mkdir -p $PKG
 cd $TMP
-wget --content-disposition https://github.com/libretro/${PRGNAM}/archive/${LATEST}.tar.gz
-tar xvf RetroArch-${VERSION}.tar.gz
+echo https://github.com/libretro/${PRGNAM}/archive/${LATEST}/${PRGNAM}-${LATEST}.tar.gz
+wget https://github.com/libretro/${PRGNAM}/archive/${LATEST}/${PRGNAM}-${LATEST}.tar.gz
+tar xvf ${PRGNAM}-${LATEST}.tar.gz
 cd ${PRGNAM}-${VERSION}
 
 # Set the config file default directories to be consistent with the installation.
@@ -110,7 +109,7 @@ for m in $PKG/usr/man/**/*.[0-9]; do
 done
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/libretro-RetroArch-$VERSION-$ARCH-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/libretro-${PRGNAM}-${VERSION}-${PRGNAM}-${BUILD}.txz
 
 cd -
 rm -rf $TMP/$PRGNAM
