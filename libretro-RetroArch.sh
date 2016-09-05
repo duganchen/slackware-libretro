@@ -110,7 +110,3 @@ done
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/libretro-${PRGNAM}-${VERSION}-${PRGNAM}-${BUILD}.txz
-
-cd -
-rm -rf $TMP/$PRGNAM
-rm -rf $PKG
