@@ -52,7 +52,10 @@ tar xvf ${PRGNAM}-${LATEST}.tar.gz
 cd ${PRGNAM}-${VERSION}
 
 # Set the config file default directories to be consistent with the installation.
-#
+
+sed -i "s/# savefile_directory =/savefile_directory = ~\/.config\/retroarch\/savefile/" retroarch.cfg
+sed -i "s/# savestate_directory =/savestate_directory = ~\/.config\/retroarch\/savestate/" retroarch.cfg
+
 sed -i "s/# libretro_directory =/libretro_directory = \/usr\/lib$LIBDIRSUFFIX\/libretro/" retroarch.cfg
 sed -i "s/# libretro_info_path =/libretro_info_path = \/usr\/lib$LIBDIRSUFFIX\/libretro\/info/" retroarch.cfg
 sed -i "s/# video_filter_dir =/video_filter_dir = \/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters\/video/" retroarch.cfg
@@ -71,6 +74,8 @@ sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch\/boxar
 sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarch\/database/" retroarch.cfg
 sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch\/cheats/" retroarch.cfg
 sed -i "s/# content_history_path =/content_history_path = ~\/.config\/retroarch\/content_history.lpl/" retroarch.cfg
+
+
 
 chown -R root:root .
 find -L . \

@@ -45,6 +45,13 @@ Then add your user account to the games group:
 
 	gpasswd -a games user
 
-On your first run, use the Online Updater to update everything except the Core and Core Info files.
-Use the included SlackBuilds to install the cores. If you want to install the cores that were
-prebuilt upstream on an Ubuntu system instead, just edit your CFG file accordingly.
+Before each installation or upgrade, clear out your ~/.config/retroarch directory. Then initialize it
+with:
+
+	mkdir -p ~/.config/retroarch/{savefile,savestate}
+
+Then, start RetroArch. use the Online Updater to update everything except the Cores, Core Info files,
+thumbnails and GLSL shaders.
+
+Use the included SlackBuilds to install the cores. More cores are on SlackBuilds.org, and you may have
+to adjust your ~/.config/retroarch/retroarch.cfg to use them.
