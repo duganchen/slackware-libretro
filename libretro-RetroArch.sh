@@ -114,4 +114,4 @@ for m in $PKG/usr/man/**/*.[0-9]; do
 done
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/libretro-${PRGNAM}-${VERSION}-${PRGNAM}-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/libretro-${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
