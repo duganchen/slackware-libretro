@@ -57,7 +57,7 @@ cd $PKG/usr/lib$LIBDIRSUFFIX/libretro/info
 curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/${CORE}.info
 
 # build and install the core
-cd $CWD/libretro
+cd $CWD
 CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
 cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
