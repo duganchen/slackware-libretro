@@ -2,9 +2,9 @@
 
 set -e
 
-REPO=snes9x-next
-CORE=snes9x_next_libretro
-PRGNAM=libretro-snes9x-next
+REPO=snes9x2010
+CORE=snes9x2010_libretro
+PRGNAM=libretro-snes9x2010
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1dc
