@@ -58,9 +58,9 @@ curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/in
 
 # build and install the core
 cd $CWD
-CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -C libgambatte/ -f Makefile.libretro
+CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -f Makefile.libretro
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
-cp libgambatte/${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
+cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
