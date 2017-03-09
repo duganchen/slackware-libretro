@@ -2,9 +2,9 @@
 
 set -e
 
-REPO=imame4all-libretro
-CORE=imame4all_libretro
-PRGNAM=libretro-imame4all
+REPO=snes9x2010
+CORE=snes9x2010_libretro
+PRGNAM=libretro-snes9x2010
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$REPO
 BUILD=1dc
@@ -58,9 +58,9 @@ curl -O https://raw.githubusercontent.com/libretro/libretro-super/master/dist/in
 
 # build and install the core
 cd $CWD
-CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -f makefile.libretro
+CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" make -f Makefile.libretro
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/libretro
-cp libretro.so $PKG/usr/lib$LIBDIRSUFFIX/libretro/$CORE.so
+cp ${CORE}.so $PKG/usr/lib$LIBDIRSUFFIX/libretro
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true

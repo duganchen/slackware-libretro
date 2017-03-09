@@ -92,7 +92,7 @@ CFLAGS=$SLKCFLAGS \
 	--enable-cg
 make
 make -C gfx/video_filters
-make -C audio/audio_filters
+make -C libretro-common/audio/dsp_filters
 make DESTDIR=$PKG PREFIX=/usr install
 mv $PKG/usr/share/man $PKG/usr
 mkdir -p $PKG/usr/doc/RetroArch-$VERSION
@@ -103,8 +103,8 @@ mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
 cp $CWD/gfx/video_filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
 cp $CWD/gfx/video_filters/*.filt $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/video
 mkdir -p $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
-cp $CWD/audio/audio_filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
-cp $CWD/audio/audio_filters/*.dsp $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
+cp $CWD/libretro-common/audio/dsp_filters/*.so $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
+cp $CWD/libretro-common/audio/dsp_filters/*.dsp $PKG/usr/lib$LIBDIRSUFFIX/retroarch/filters/audio
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
