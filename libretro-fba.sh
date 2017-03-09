@@ -3,7 +3,7 @@
 set -e
 
 PRGNAM=libretro-fba
-CORE=fba_libretro
+CORE=fbalpha_libretro
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PRGNAM
 BUILD=1dc
