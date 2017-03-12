@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -e
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-RetroArch
 PRGNAM=RetroArch
@@ -27,29 +29,23 @@ else
 	LIBDIRSUFFIX=""
 fi
 
-read -r -d '' PARSER <<EOF
-# Get the latest version
-import json
-import sys
-
-releases = json.load(sys.stdin)
-print releases[0]["tag_name"]
-EOF
-
-set -e
-
-LATEST=$(curl -H "Accept: application/vnd.github.v3.raw+json" https://api.github.com/repos/libretro/${PRGNAM}/releases | python -c $PARSER)
-VERSION=${LATEST:1}
 
 rm -rf $PKG
-rm -rf $TMP/${PRGNAM}-${VERSION} $TMP/${PRGNAM}-${LATEST}.tar.gz
+rm -rf $TMP/${PRGNAM}
 
 mkdir -p $PKG
 cd $TMP
-echo https://github.com/libretro/${PRGNAM}/archive/${LATEST}/${PRGNAM}-${LATEST}.tar.gz
-wget https://github.com/libretro/${PRGNAM}/archive/${LATEST}/${PRGNAM}-${LATEST}.tar.gz
-tar xvf ${PRGNAM}-${LATEST}.tar.gz
-cd ${PRGNAM}-${VERSION}
+
+git clone https://github.com/libretro/RetroArch.git
+cd $PRGNAM
+VERSION=`git rev-parse --short HEAD`
+
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 # Set the config file default directories to be consistent with the installation.
 
@@ -75,21 +71,14 @@ sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarc
 sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch\/cheats/" retroarch.cfg
 sed -i "s/# content_history_path =/content_history_path = ~\/.config\/retroarch\/content_history.lpl/" retroarch.cfg
 
-
-
-chown -R root:root .
-find -L . \
- \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
-  -o -perm 511 \) -exec chmod 755 {} \; -o \
- \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
-  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+sh fetch-submodules.sh
 
 CWD=$PWD
 CFLAGS=$SLKCFLAGS \
 	CXXFLAGS="$SLKCFLAGS" \
 	./configure \
-	--prefix=/usr \
-	--enable-cg
+	--prefix=/usr
+
 make
 make -C gfx/video_filters
 make -C libretro-common/audio/dsp_filters
