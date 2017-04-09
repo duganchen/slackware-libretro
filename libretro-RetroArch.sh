@@ -83,7 +83,7 @@ sed -i "s/# \(video_shader_dir\) =/\1 $CFG\/shaders/" retroarch.cfg
 
 sed -i "s/# \(\(overlay\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 sed -i "s/# \(joypad_autoconfig_dir =\)/\1 $CFG\/autoconf/" retroarch.cfg
-sed -i "s/# \(\(assets\)_directory =\)/\1 = $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(\(assets\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 
 sed -i "s/# \(rgui_config_directory =\)/\1 $CFG/" retroarch.cfg
 sed -i "s/# \(input_remapping_directory =\)/\1 $CFG\/remap/" retroarch.cfg
