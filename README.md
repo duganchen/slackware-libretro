@@ -19,7 +19,7 @@ with:
 
 	mkdir -p ~/.config/retroarch/{savefile,savestate}
 
-Then, start RetroArch. use the Online Updater to update everything, including the cores, shaders,
+Then, start RetroArch. Use the Online Updater to update everything, including the cores, shaders,
 assets, etc.
 
 ## A Note On GamePad Support
