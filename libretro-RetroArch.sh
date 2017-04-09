@@ -66,10 +66,10 @@ find -L . \
 CFG="~\/.config\/retroarch"
 FILTERS="\/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters"
 sed -i "s/# \(\(savefile\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-sed -i "s/# \(\(savestate\)_directory =\)/\1 $CFG\/libretro\/assets/" retroarch.cfg
+sed -i "s/# \(\(savestate\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 
 sed -i "s/# \(cache_directory =\)/\1 ~\/.cache\/retroarch/" retroarch.cfg
-sed -i "s/# \(\(core_assets\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(\(core_assets\)_directory =\)/\1 $CFG\/libretro\/assets/" retroarch.cfg
 sed -i "s/# \(\(content_history\)_dir =\)/\1 $CFG\/\2/" retroarch.cfg
 sed -i "s/# \(\(cursor\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 
