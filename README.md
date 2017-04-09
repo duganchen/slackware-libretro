@@ -1,8 +1,7 @@
 # RetroArch for Slackware
 
 This is a series of scripts to package RetroArch for Slackware.
-There is one script for each component. These days, the one you should
-need is *libretro-RetroArch.sh*.
+These days, the only one you need need is *libretro-RetroArch.sh*.
 
 The following are not required, but will be detected and used by RetroArch (and
 possibly other Libretro components) if found:
@@ -29,10 +28,3 @@ As is the case for many games and emulators, RetroArch needs your gamepad device
 the correct permissions. The Arch Wiki has a fairly definitive guide to setting that up:
 
 https://wiki.archlinux.org/index.php/udev
-
-What I do is add my user account to the "games" group:
-
-	gpasswd -a dugan games
-
-And then use the following rules for my favorite devices:
-
