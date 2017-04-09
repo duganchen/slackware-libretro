@@ -3,9 +3,11 @@
 set -e
 
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-RetroArch
-PRGNAM=RetroArch
+USER=libretro
+REPO=RetroArch
+PKG=$TMP/package-${USER}-${REPO}
 BUILD=1dc
+PRGNAM=${USER}-${REPO}
 
 if [[ -z $ARCH ]]; then
 	case $( uname -m ) in
@@ -31,14 +33,27 @@ fi
 
 
 rm -rf $PKG
-rm -rf $TMP/${PRGNAM}
+rm -rf $TMP/${REPO}
 
 mkdir -p $PKG
 cd $TMP
 
-git clone https://github.com/libretro/RetroArch.git
-cd $PRGNAM
-VERSION=`git rev-parse --short HEAD`
+HEADER="Accept: application/vnd.github.v3.raw+json"
+PARSER=$(cat <<-END
+import json
+import sys
+tags = json.load(sys.stdin)
+print tags[0]["name"]
+END
+)
+ENDPOINT="https://api.github.com/repos/${USER}/${REPO}/tags"
+TAG="$(curl -H $HEADER $ENDPOINT | python -c $PARSER)"
+VERSION=$(echo $TAG | cut -c 2-)
+
+git clone https://github.com/${USER}/${REPO}.git
+cd $REPO
+git checkout $TAG
+git clean -f -d -x
 
 chown -R root:root .
 find -L . \
@@ -49,27 +64,37 @@ find -L . \
 
 # Set the config file default directories to be consistent with the installation.
 
-sed -i "s/# savefile_directory =/savefile_directory = ~\/.config\/retroarch\/savefile/" retroarch.cfg
-sed -i "s/# savestate_directory =/savestate_directory = ~\/.config\/retroarch\/savestate/" retroarch.cfg
+CFG="~\/.config\/retroarch"
+FILTERS="\/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters"
+sed -i "s/# \(\(savefile\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(\(savestate\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 
-sed -i "s/# libretro_directory =/libretro_directory = \/usr\/lib$LIBDIRSUFFIX\/libretro/" retroarch.cfg
-sed -i "s/# libretro_info_path =/libretro_info_path = \/usr\/lib$LIBDIRSUFFIX\/libretro\/info/" retroarch.cfg
-sed -i "s/# video_filter_dir =/video_filter_dir = \/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters\/video/" retroarch.cfg
-sed -i "s/# audio_filter_dir =/audio_filter_dir = \/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters\/audio/" retroarch.cfg
+sed -i "s/# \(cache_directory =\)/\1 ~\/.cache\/retroarch/" retroarch.cfg
+sed -i "s/# \(\(core_assets\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(\(content_history\)_dir =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(\(cursor\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 
-sed -i "s/# video_shader_dir =/video_shader_dir = ~\/.config\/retroarch\/shaders/" retroarch.cfg
+sed -i "s/# \(\(libretro\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(\(libretro\)_\(info\)_path =\)/\1 $CFG\/\2\/\3/" retroarch.cfg
 
-sed -i "s/# overlay_directory =/overlay_directory = ~\/.config\/retroarch\/overlay/" retroarch.cfg
-sed -i "s/# joypad_autoconfig_dir =/joypad_autoconfig_dir = ~\/.config\/retroarch\/autoconf/" retroarch.cfg
-sed -i "s/# assets_directory =/assets_directory = ~\/.config\/retroarch\/assets/" retroarch.cfg
+sed -i "s/# \(\(video\)_filter_dir =\)/\1 $FILTERS\/\2/" retroarch.cfg
+sed -i "s/# \(\(audio\)_filter_dir =\)/\1 $FILTERS\/\2/" retroarch.cfg
 
-sed -i "s/# rgui_config_directory =/rgui_config_directory = ~\/.config\/retroarch/" retroarch.cfg
-sed -i "s/# input_remapping_directory =/input_remapping_directory = ~\/.config\/retroarch\/remap/" retroarch.cfg
-sed -i "s/# playlist_directory =/playlist_directory = ~\/.config\/retroarch\/playlists/" retroarch.cfg
-sed -i "s/# boxarts_directory =/boxarts_directory = ~\/.config\/retroarch\/boxarts/" retroarch.cfg
-sed -i "s/# content_database_path =/content_database_path = ~\/.config\/retroarch\/database/" retroarch.cfg
-sed -i "s/# cheat_database_path =/cheat_database_path = ~\/.config\/retroarch\/cheats/" retroarch.cfg
-sed -i "s/# content_history_path =/content_history_path = ~\/.config\/retroarch\/content_history.lpl/" retroarch.cfg
+sed -i "s/# \(video_shader_dir\) =/\1 $CFG\/shaders/" retroarch.cfg
+
+sed -i "s/# \(\(overlay\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(joypad_autoconfig_dir =\)/\1 $CFG\/autoconf/" retroarch.cfg
+sed -i "s/# \(\(assets\)_directory =\)/\1 = $CFG\/\2/" retroarch.cfg
+
+sed -i "s/# \(rgui_config_directory =\)/\1 $CFG/" retroarch.cfg
+sed -i "s/# \(input_remapping_directory =\)/\1 $CFG\/remap/" retroarch.cfg
+sed -i "s/# \(\(playlist\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(\(boxarts\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
+sed -i "s/# \(content_database_path =\)/\1 $CFG\/database/" retroarch.cfg
+sed -i "s/# \(cheat_database_path =\)/\1 $CFG\/cheats/" retroarch.cfg
+sed -i "s/# \(content_history_path =\)/\1 $CFG\/content_history.lpl/" retroarch.cfg
+
+sed -i "s/# \(\(system\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 
 sh fetch-submodules.sh
 
@@ -103,4 +128,4 @@ for m in $PKG/usr/man/**/*.[0-9]; do
 done
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/libretro-${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/${USER}-${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
