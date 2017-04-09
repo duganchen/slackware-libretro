@@ -7,7 +7,6 @@ USER=libretro
 REPO=RetroArch
 PKG=$TMP/package-${USER}-${REPO}
 BUILD=1dc
-PRGNAM=${USER}-${REPO}
 
 if [[ -z $ARCH ]]; then
 	case $( uname -m ) in
@@ -128,4 +127,4 @@ for m in $PKG/usr/man/**/*.[0-9]; do
 done
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/${USER}-${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/${USER}-${REPO}-${VERSION}-${ARCH}-${BUILD}.txz
