@@ -14,13 +14,7 @@ possibly other Libretro components) if found:
 * [Vulkan SDK](https://raw.githubusercontent.com/duganchen/my_slackbuilds/master/vulkansdk.SlackBuild)
 * [NVidia CG Toolkit](http://slackbuilds.org/graphics/nvidia-cg-toolkit/)
 
-Before each installation or upgrade, clear out your ~/.config/retroarch directory. Then initialize it
-with:
-
-	mkdir -p ~/.config/retroarch/{savefile,savestate}
-
-Then, start RetroArch. Use the Online Updater to update everything, including the cores, shaders,
-assets, etc.
+Use the Online Updater to update everything except the assets.
 
 ## A Note On GamePad Support
 

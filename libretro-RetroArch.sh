@@ -61,39 +61,9 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-# Set the config file default directories to be consistent with the installation.
-
-CFG="~\/.config\/retroarch"
 FILTERS="\/usr\/lib$LIBDIRSUFFIX\/retroarch\/filters"
-sed -i "s/# \(\(savefile\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-sed -i "s/# \(\(savestate\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-
-sed -i "s/# \(cache_directory =\)/\1 ~\/.cache\/retroarch/" retroarch.cfg
-sed -i "s/# \(\(core_assets\)_directory =\)/\1 $CFG\/libretro\/assets/" retroarch.cfg
-sed -i "s/# \(\(content_history\)_dir =\)/\1 $CFG\/\2/" retroarch.cfg
-sed -i "s/# \(\(cursor\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-
-sed -i "s/# \(\(libretro\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-sed -i "s/# \(\(libretro\)_\(info\)_path =\)/\1 $CFG\/\2\/\3/" retroarch.cfg
-
 sed -i "s/# \(\(video\)_filter_dir =\)/\1 $FILTERS\/\2/" retroarch.cfg
 sed -i "s/# \(\(audio\)_filter_dir =\)/\1 $FILTERS\/\2/" retroarch.cfg
-
-sed -i "s/# \(video_shader_dir\) =/\1 $CFG\/shaders/" retroarch.cfg
-
-sed -i "s/# \(\(overlay\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-sed -i "s/# \(joypad_autoconfig_dir =\)/\1 $CFG\/autoconf/" retroarch.cfg
-sed -i "s/# \(\(assets\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-
-sed -i "s/# \(rgui_config_directory =\)/\1 $CFG/" retroarch.cfg
-sed -i "s/# \(input_remapping_directory =\)/\1 $CFG\/remap/" retroarch.cfg
-sed -i "s/# \(\(playlist\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-sed -i "s/# \(\(boxarts\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
-sed -i "s/# \(content_database_path =\)/\1 $CFG\/database/" retroarch.cfg
-sed -i "s/# \(cheat_database_path =\)/\1 $CFG\/cheats/" retroarch.cfg
-sed -i "s/# \(content_history_path =\)/\1 $CFG\/content_history.lpl/" retroarch.cfg
-
-sed -i "s/# \(\(system\)_directory =\)/\1 $CFG\/\2/" retroarch.cfg
 
 sh fetch-submodules.sh
 
