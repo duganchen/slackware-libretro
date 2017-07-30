@@ -41,17 +41,16 @@ HEADER="Accept: application/vnd.github.v3.raw+json"
 PARSER=$(cat <<-END
 import json
 import sys
-tags = json.load(sys.stdin)
-print tags[0]["name"]
+releases = json.load(sys.stdin)
+print releases[0]["tag_name"]
 END
 )
-ENDPOINT="https://api.github.com/repos/${USER}/${REPO}/tags"
-TAG="$(curl -H $HEADER $ENDPOINT | python -c $PARSER)"
-VERSION=$(echo $TAG | cut -c 2-)
+ENDPOINT="https://api.github.com/repos/${USER}/${REPO}/releases"
+VERSION="$(curl -H $HEADER $ENDPOINT | python -c $PARSER)"
 
 git clone https://github.com/${USER}/${REPO}.git
 cd $REPO
-git checkout $TAG
+git checkout $VERSION
 git clean -f -d -x
 
 chown -R root:root .
